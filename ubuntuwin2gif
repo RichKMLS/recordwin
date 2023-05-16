@@ -13,6 +13,7 @@ Xshift=$(echo "$output" | awk '/Absolute upper-left X/ {print $4}')
 Yshift=$(echo "$output" | awk '/Absolute upper-left Y/ {print $4}')
 
 # Adjust the size and position of the recording frame to account for the invisible borders
+# May need to be adjusted.
 X=$((X - 25 - 28))
 Y=$((Y - 23 - 27))
 Xshift=$((Xshift + 25))
