@@ -32,8 +32,8 @@ timestamp=$(date +%s)
 # Set the radius for rounded corners
 radius=12
 
-# Record the screen using ffmpeg and overlay it as a curved rectangle over a background with color #0d1117
-ffmpeg -f lavfi -i color=color=#0d1117:size=$XY \
+# Record the screen using ffmpeg and overlay it as a curved rectangle over a transparent background.
+ffmpeg -f lavfi -i color=color=black@0.0:size=$XY \
         -video_size $XY -framerate 30 -f x11grab -i $Shift \
         -filter_complex "[1:v]format=yuva420p,geq=lum='p(X,Y)':a='if(gt(Y,H/2),255,if(gt(abs(W/2-X),W/2-${radius})*gt(abs(H/2-Y),H/2-${radius}),if(lte(hypot(${radius}-(W/2-abs(W/2-X)),${radius}-(H/2-abs(H/2-Y))),${radius}),255,0),255))'[rounded];[0:v][rounded]overlay=x=(W-w)/2:y=(H-h)/2" \
         -c:v qtrle ${timestamp}.mov
