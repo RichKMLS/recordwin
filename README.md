@@ -34,3 +34,7 @@ Click the window you want to record and the script will start.
 Use ctrl+C on your terminal to end recording.
 
 Once the script completes, it will generate a high-quality GIF of the selected window and save it to your system and open it automatically.
+
+Open an issue if you are having any problems.
+
+Also, feel free to modify this script to function however you want. 
