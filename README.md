@@ -19,7 +19,7 @@ Make sure you have ffmpeg and xwininfo installed on your system. If you don’t 
 ```bash
 sudo apt-get install ffmpeg x11-utils
 ```
-Save the script to a file on your system, for example window-to-gif.sh.
+Save the script.
 
 Make the script executable by running the following command:
 ```bash
