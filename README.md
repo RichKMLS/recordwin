@@ -10,7 +10,7 @@ This script allows you to easily create high-quality GIFs of windows on Ubuntu. 
 ## Why use this script?
 Creating high-quality GIFs can be a time-consuming and complex process. This script simplifies the process by automating the steps involved in recording the window, generating a color palette, and creating the final GIF.
 
-The script uses ffmpeg to record the screen and overlay it as a curved rectangle over a background color #0d1117, (the dark theme of a github readme) which is used to account for the curved top corners of a GNOME window. It then generates a color palette from the recorded video to optimize the quality of the resulting GIF. Finally, it uses the generated color palette to create a high-quality GIF from the recorded video which opens automatically once created.
+The script uses ffmpeg to record the screen and overlay it as a curved rectangle over a transparent background (which is used to account for the curved top corners of a GNOME window). It then generates a color palette from the recorded video to optimize the quality of the resulting GIF. Finally, it uses the generated color palette to create a high-quality GIF from the recorded video which opens automatically once created.
 
 ## How to use this script
 To use this script, follow these steps:
@@ -35,6 +35,6 @@ Use ctrl+C on your terminal to end recording.
 
 Once the script completes, it will generate a high-quality GIF of the selected window and save it to your system and open it automatically.
 
-Open an issue if you are having any problems.
+Open an issue if you are having any problems or suggestions. Depending on what application you are trying to record you may need to adjust some variables.
 
 Also, feel free to modify this script to function however you want. 
