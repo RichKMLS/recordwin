@@ -1,0 +1,59 @@
+#!/bin/bash
+# This script is used to create high-quality GIFs of windows on Ubuntu for use in a GitHub README
+# github.com/richkmls
+
+# Use xwininfo to get information about the window to be recorded
+output=$(xwininfo)
+sleep 1
+
+# Parse the output of xwininfo to extract the window dimensions and position
+X=$(echo "$output" | awk '/Width/ {print $2}')
+Y=$(echo "$output" | awk '/Height/ {print $2}')
+Xshift=$(echo "$output" | awk '/Absolute upper-left X/ {print $4}')
+Yshift=$(echo "$output" | awk '/Absolute upper-left Y/ {print $4}')
+
+# Adjust the size and position of the recording frame to account for the invisible borders
+X=$((X - 25 - 28))
+Y=$((Y - 23 - 27))
+Xshift=$((Xshift + 25))
+Yshift=$((Yshift + 23))
+
+# Print the adjusted window dimensions and position
+echo "X=$X, Y=$Y, Xshift=$Xshift, Yshift=$Yshift"
+
+# Set the recording frame size and position
+XY="${X}x${Y}"
+Shift=":0.0+${Xshift},${Yshift}"
+
+# Get the current timestamp to use as a filename for the output files
+timestamp=$(date +%s)
+
+# Set the radius for rounded corners
+radius=12
+
+# Record the screen using ffmpeg and overlay it as a curved rectangle over a background with color #0d1117
+ffmpeg -f lavfi -i color=color=#0d1117:size=$XY \
+        -video_size $XY -framerate 30 -f x11grab -i $Shift \
+        -filter_complex "[1:v]format=yuva420p,geq=lum='p(X,Y)':a='if(gt(Y,H/2),255,if(gt(abs(W/2-X),W/2-${radius})*gt(abs(H/2-Y),H/2-${radius}),if(lte(hypot(${radius}-(W/2-abs(W/2-X)),${radius}-(H/2-abs(H/2-Y))),${radius}),255,0),255))'[rounded];[0:v][rounded]overlay=x=(W-w)/2:y=(H-h)/2" \
+        -c:v qtrle ${timestamp}.mov
+
+# Wait for the MOV file to be completely written before proceeding
+while [ ! -f "${timestamp}.mov" ]; do sleep 1; done
+
+# Generate a color palette from the MOV file using ffmpeg to optimize the quality of the resulting GIF
+ffmpeg -i "${timestamp}.mov" -vf palettegen record_palette.png
+
+wait
+
+# Use the generated color palette to create a high-quality GIF from the MOV file using ffmpeg
+ffmpeg -i "${timestamp}.mov" -i record_palette.png \
+       -filter_complex "fps=25,scale=600:-1:flags=lanczos[x];[x][1:v]paletteuse" \
+       -y ${timestamp}.gif
+
+# Remove temporary color palette file
+rm record_palette.png
+
+wait
+
+# Open the generated GIF using the default image viewer
+xdg-open ${timestamp}.gif
