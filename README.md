@@ -23,7 +23,7 @@ Save the script.
 
 Make the script executable by running the following command:
 ```bash
-chmod +x wubuntuwin2gif
+chmod +x ubuntuwin2gif
 ```
 Run the script by executing it from the command line:
 ```bash
@@ -31,7 +31,7 @@ Run the script by executing it from the command line:
 ```
 Click the window you want to record and the script will start. 
 
-Use ctrl+C on your terminal to end recording.
+Use ctrl+c on your terminal to end recording.
 
 Once the script completes, it will generate a high-quality GIF of the selected window and save it to your system and open it automatically.
 
