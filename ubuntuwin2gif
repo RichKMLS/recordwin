@@ -24,7 +24,7 @@ echo "X=$X, Y=$Y, Xshift=$Xshift, Yshift=$Yshift"
 
 # Set the recording frame size and position
 XY="${X}x${Y}"
-Shift=":0.0+${Xshift},${Yshift}"
+Shift="${DISPLAY}.0+${Xshift},${Yshift}"
 
 # Get the current timestamp to use as a filename for the output files
 timestamp=$(date +%s)
